@@ -1,0 +1,11 @@
+{application, erequest_id,
+ [
+  {description, "Request ID generator"},
+  {vsn, "0.1.0"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib
+                 ]},
+  {env, []}
+ ]}.
