@@ -3,7 +3,7 @@
 -export([create/0
          ,validate/2]).
 
--type request_id() :: iolist().
+-type request_id() :: iolist()|binary().
 
 -export_type([request_id/0]).
 
