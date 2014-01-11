@@ -25,13 +25,23 @@ create() ->
                       invalid when
       RequestId :: request_id(),
       Size :: pos_integer().
-validate(RequestId, Size) when is_list(RequestId),
-                               length(RequestId) =< Size ->
-    validate(RequestId);
-validate(RequestId, Size) when is_binary(RequestId),
-                               byte_size(RequestId) =< Size ->
-    validate(binary_to_list(RequestId), Size);
-validate(_, _) ->
+validate(RequestId, MaxSize) ->
+    validate(RequestId, 0, MaxSize).
+
+validate(RequestId, MinSize, MaxSize)
+  when is_binary(RequestId),
+       MinSize =< byte_size(RequestId),
+       byte_size(RequestId) =< MaxSize ->
+    validate_binary(RequestId);
+validate(RequestId, MinSize, MaxSize)
+  when is_list(RequestId) ->
+    case iolist_size(RequestId) of
+        TooBig when TooBig > MaxSize -> invalid;
+        TooSmall when TooSmall < MinSize -> invalid;
+        _ ->
+            validate_iolist(RequestId)
+    end;
+validate(_, _, _) ->
     invalid.
 
 validate_iolist([]) ->
