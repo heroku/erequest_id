@@ -30,7 +30,7 @@ validate(RequestId) ->
     validate(RequestId, ?DEFAULT_ID_SIZE, ?DEFAULT_ID_SIZE).
 
 %% @doc
-%% Validate that the request ID is valid, that means that it 
+%% Validate that the request ID is valid, that means that it
 %% should be >= Size and all characters in the range [A-Za-z0-9\-].
 %% @end
 -spec validate(RequestId, Size) ->
