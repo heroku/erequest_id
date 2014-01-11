@@ -34,14 +34,46 @@ validate(RequestId, Size) when is_binary(RequestId),
 validate(_, _) ->
     invalid.
 
-%% Internal
-validate([]) ->
+validate_iolist([]) ->
     valid;
-validate([C|Rest]) when $A =< C, C =< $Z;
-                        $a =< C, C =< $z;
-                        $0 =< C, C =< $9;
-                        C =:= $- ->
-    validate(Rest);
-validate(_) ->
-    invalid.
+validate_iolist([C | Rest]) when is_integer(C) ->
+    case validate_char(C) of
+        valid ->
+            validate_iolist(Rest);
+        invalid ->
+            invalid
+    end;
+validate_iolist([L | Rest]) when is_list(L) ->
+    case validate_iolist(L) of
+        valid ->
+            validate_iolist(Rest);
+        invalid ->
+            invalid
+    end;
+validate_iolist([ B | Rest ]) when is_binary(B) ->
+    case validate_binary(B) of
+        valid ->
+            validate_iolist(Rest);
+        invalid ->
+            invalid
+    end.
 
+validate_binary(<<>>) ->
+    valid;
+validate_binary(<<C, Rest/binary>>) ->
+    case validate_char(C) of
+        valid ->
+            validate_binary(Rest);
+        invalid ->
+            invalid
+    end.
+
+-compile({inline, {validate_char, 1}}).
+validate_char(C)
+  when $A =< C, C =< $Z;
+       $a =< C, C =< $z;
+       $0 =< C, C =< $9;
+       C =:= $- ->
+    valid;
+validate_char(_) ->
+    invalid.
