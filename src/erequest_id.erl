@@ -4,6 +4,8 @@
          ,validate/1
          ,validate/2
          ,validate/3
+         ,ensure/1
+         ,ensure/3
         ]).
 
 -type request_id() :: iolist()|binary().
@@ -28,6 +30,23 @@ create() ->
 -spec validate(request_id()) -> valid | invalid.
 validate(RequestId) ->
     validate(RequestId, ?DEFAULT_ID_SIZE, ?DEFAULT_ID_SIZE).
+
+%% @doc Given RequestId input, return a valid request id. The input if
+%% it is in fact valid, or a newly generated request id if not.
+%% @end
+-spec ensure(any()) -> request_id().
+ensure(RequestId) ->
+    ensure(RequestId, ?DEFAULT_ID_SIZE, ?DEFAULT_ID_SIZE).
+
+-spec ensure(any(), non_neg_integer(), non_neg_integer()) -> request_id().
+ensure(RequestId, MinSize, MaxSize) ->
+    case validate(RequestId, MinSize, MaxSize) of
+        valid ->
+            RequestId;
+        invalid ->
+            {ok, NewRequestId} = create(),
+            NewRequestId
+    end.
 
 %% @doc
 %% Validate that the request ID is valid, that means that it
