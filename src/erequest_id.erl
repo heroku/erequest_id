@@ -1,11 +1,17 @@
 -module(erequest_id).
 
 -export([create/0
-         ,validate/2]).
+         ,validate/1
+         ,validate/2
+         ,validate/3
+        ]).
 
 -type request_id() :: iolist()|binary().
 
 -export_type([request_id/0]).
+
+ %% e.g. byte_size(<<"2ab5bf90-f9a1-44dd-b996-3987638ce9e0">>)
+-define(DEFAULT_ID_SIZE, 36).
 
 %% @doc Create a new Request ID
 -spec create() ->
@@ -15,6 +21,13 @@ create() ->
     UuidV4 = uuid:get_v4(weak),
     UuidV4Bin = uuid:uuid_to_string(UuidV4, binary_standard),
     {ok, UuidV4Bin}.
+
+%% @doc Checks that the RequestId is 36 chars long and all characters
+%% are in the range [A-Za-z0-9\-].
+%% @end
+-spec validate(request_id()) -> valid | invalid.
+validate(RequestId) ->
+    validate(RequestId, ?DEFAULT_ID_SIZE, ?DEFAULT_ID_SIZE).
 
 %% @doc
 %% Validate that the request ID is valid, that means that it 
