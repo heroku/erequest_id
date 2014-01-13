@@ -25,7 +25,7 @@ create() ->
     {ok, UuidV4Bin}.
 
 %% @doc Checks that the RequestId is 36 chars long and all characters
-%% are in the range [A-Za-z0-9\-].
+%% are in the range [A-Za-z0-9=+/\-].
 %% @end
 -spec validate(request_id()) -> valid | invalid.
 validate(RequestId) ->
@@ -50,7 +50,7 @@ ensure(RequestId, MinSize, MaxSize) ->
 
 %% @doc
 %% Validate that the request ID is valid, that means that it
-%% should be >= Size and all characters in the range [A-Za-z0-9\-].
+%% should be >= Size and all characters in the range [A-Za-z0-9=+/\-].
 %% @end
 -spec validate(RequestId, Size) ->
                       valid |
@@ -115,7 +115,10 @@ validate_char(C)
   when $A =< C, C =< $Z;
        $a =< C, C =< $z;
        $0 =< C, C =< $9;
-       C =:= $- ->
+       C =:= $-;
+       C =:= $+;
+       C =:= $/;
+       C =:= $= ->
     valid;
 validate_char(_) ->
     invalid.
