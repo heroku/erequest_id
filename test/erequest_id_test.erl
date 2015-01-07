@@ -7,11 +7,11 @@ tip_queue_test_() ->
              ok
      end,
      fun(_Pid) ->
-	     ok
+             ok
      end,
      [
       {"Create Request ID", ?_test(t_create_request_id())}
-      ,{"Validate Request ID", ?_test(t_validate_request_id())}
+     ,{"Validate Request ID", ?_test(t_validate_request_id())}
      ]
     }.
 
