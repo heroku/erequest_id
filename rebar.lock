@@ -1,0 +1,8 @@
+[{<<"quickrand">>,
+  {git,"https://github.com/okeuday/quickrand.git",
+       {ref,"8b6810b73427745bb6d4f10ae9bfc66983b3b2a1"}},
+  1},
+ {<<"uuid">>,
+  {git,"https://github.com/okeuday/uuid.git",
+       {ref,"4b705b22f5d095970558d904e43c4354bd0e0a7f"}},
+  0}].
