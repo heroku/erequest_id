@@ -28,7 +28,7 @@
 -spec create() -> {ok, RequestId} when
       RequestId :: request_id().
 create() ->
-    UuidV4 = uuid:get_v4(weak),
+    UuidV4 = uuid:get_v4(),
     UuidV4Bin = uuid:uuid_to_string(UuidV4, binary_standard),
     {ok, UuidV4Bin}.
 
