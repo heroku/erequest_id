@@ -40,9 +40,9 @@ valid|invalid = erequest_id:validate(request_id(), max_byte_size()).
 
 ## Tests
 
-Rebar needs to be in your path
+[Rebar3](https://www.rebar3.org) needs to be in your path
 
 ```
-$ rebar get-deps compile
-$ rebar eunit skip_deps=true
+$ rebar3 compile
+$ rebar3 eunit
 ```
